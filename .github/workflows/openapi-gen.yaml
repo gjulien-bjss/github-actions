@@ -100,5 +100,5 @@ jobs:
 
                 await core.summary.addRaw("PR raised ✅").addLink("Link to PR", data.data.url).write()
             } catch (e) {
-                console.log(JSON.stringify(e.data.errors))
+                console.log(JSON.stringify(e.response.data.errors))
             }
