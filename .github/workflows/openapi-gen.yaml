@@ -44,7 +44,7 @@ jobs:
       - name: Generate Services
         run: |
           java -jar openapi-generator-cli.jar generate \
-          -i ${{inputs.docs_path}} \
+          -i this/${{inputs.docs_path}} \
           -g typescript-angular \
           -o ./generated
 
