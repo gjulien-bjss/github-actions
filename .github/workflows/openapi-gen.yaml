@@ -69,7 +69,7 @@ jobs:
           cd pr_repo
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b openapi-gen:$GITHUB_SHA
+          git checkout -b openapi-gen-$GITHUB_SHA
           git add -N .
           git diff -s --exit-code || (echo "No changes found, skipping push to remote" && exit 0 && echo "HAS_CHANGED=false" >> "$GITHUB_OUTPUT")
 
@@ -79,7 +79,7 @@ jobs:
           cd pr_repo
           git add .
           git commit -am "chore: update open api services"
-          git push --set-upstream origin openapi-gen:$GITHUB_SHA
+          git push --set-upstream origin openapi-gen-$GITHUB_SHA
 
       - name: Create PR
         if: steps.change-check.outputs.HAS_CHANGED != 'false'
@@ -91,7 +91,7 @@ jobs:
               owner: "${{inputs.owner}}",
               repo: "${{inputs.pr_repository}}",
               base: "${{inputs.pr_repository_base_branch}}",
-              head: `openapi-gen:${context.sha}`,
+              head: `openapi-gen-${context.sha}`,
               title: `chore: update ${context.repo.repo} open api services`,
               body: `Update services generated from [${context.repo.repo}](https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}).`
             })
