@@ -87,18 +87,13 @@ jobs:
         with:
           github-token: ${{ secrets.PAT }}
           script: |
-            try {         
-                const data = await github.rest.pulls.create({
-                  owner: "${{inputs.owner}}",
-                  repo: "${{inputs.pr_repository}}",
-                  base: "${{inputs.pr_repository_base_branch}}",
-                  head: `open-api-gen-${context.sha}`,
-                  title: `chore: update ${context.repo.repo} open api services`,
-                  body: `Update services generated from [${context.repo.repo}](https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}).`
-                })
+            const data = await github.rest.pulls.create({
+              owner: "${{inputs.owner}}",
+              repo: "${{inputs.pr_repository}}",
+              base: "${{inputs.pr_repository_base_branch}}",
+              head: `open-api-gen-${context.sha}`,
+              title: `chore: update ${context.repo.repo} open api services`,
+              // body: `Update services generated from [${context.repo.repo}](https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}).`
+            })
 
-                await core.summary.addRaw("PR raised ✅").addLink("Link to PR", data.data.url).write()
-
-            } catch (e) {
-                console.log(JSON.stringify(e))
-            }
+            await core.summary.addRaw("PR raised ✅").addLink("Link to PR", data.data.url).write()
