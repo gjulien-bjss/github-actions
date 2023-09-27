@@ -88,9 +88,9 @@ jobs:
           github-token: ${{ secrets.PAT }}
           script: |
             const data = await github.rest.pulls.create({
-              owner: ${{inputs.owner}},
-              repo: ${{inputs.pr_repository}},
-              base: ${{inputs.pr_repository_base_branch}},
+              owner: "${{inputs.owner}}"",
+              repo: "${{inputs.pr_repository}}",
+              base: "${{inputs.pr_repository_base_branch}}",
               head: `open-api-gen-${context.sha}`,
               title: `chore: update ${context.repo.repo} open api services`,
               body: `Update services generated from [${context.repo.repo}](https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}).`
