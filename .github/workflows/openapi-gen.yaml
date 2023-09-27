@@ -69,7 +69,7 @@ jobs:
           cd pr_repo
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b open-api-gen$GITHUB_SHA
+          git checkout -b open-api-gen-$GITHUB_SHA
           git add -N .
           git diff -s --exit-code || (echo "No changes found, skipping push to remote" && exit 0 && echo "HAS_CHANGED=false" >> "$GITHUB_OUTPUT")
 
@@ -87,18 +87,13 @@ jobs:
         with:
           github-token: ${{ secrets.PAT }}
           script: |
-            try {
-                
-                const data = await github.rest.pulls.create({
-                  owner: "${{inputs.owner}}",
-                  repo: "${{inputs.pr_repository}}",
-                  base: "${{inputs.pr_repository_base_branch}}",
-                  head: `open-api-gen-${context.sha}`,
-                  title: `chore: update ${context.repo.repo} open api services`,
-                  body: `Update services generated from [${context.repo.repo}](https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}).`
-                })
+            const data = await github.rest.pulls.create({
+              owner: "${{inputs.owner}}",
+              repo: "${{inputs.pr_repository}}",
+              base: "${{inputs.pr_repository_base_branch}}",
+              head: `open-api-gen-${context.sha}`,
+              title: `chore: update ${context.repo.repo} open api services`,
+              body: `Update services generated from [${context.repo.repo}](https://github.com/${context.repo.owner}/${context.repo.repo}/commit/${context.sha}).`
+            })
 
-                await core.summary.addRaw("PR raised ✅").addLink("Link to PR", data.data.url).write()
-            } catch (e) {
-                console.log(JSON.stringify(e.response.data.errors))
-            }
+            await core.summary.addRaw("PR raised ✅").addLink("Link to PR", data.data.url).write()
