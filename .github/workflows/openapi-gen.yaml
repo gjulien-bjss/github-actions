@@ -60,8 +60,8 @@ jobs:
       - name: Package changes
         run: |
           rm -rf pr_repo/${{inputs.pr_repository_path}}
-          mkdir -p ${{inputs.pr_repository_path}}
-          cp -r generated ${{inputs.pr_repository_path}}
+          mkdir -p pr_repo/${{inputs.pr_repository_path}}
+          cp -r generated pr_repo/${{inputs.pr_repository_path}}
 
       - name: Check for changes
         id: change-check
