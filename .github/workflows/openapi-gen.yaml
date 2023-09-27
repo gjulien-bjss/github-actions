@@ -34,7 +34,7 @@ jobs:
 
       - name: Get Generator
         run: |
-          wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.1/openapi-generator-cli-7.0.1.jar -O this/.github/tools/openapi-generator-cli.jar
+          wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.0.1/openapi-generator-cli-7.0.1.jar -O openapi-generator-cli.jar
 
       - uses: actions/setup-java@v3
         with:
@@ -43,7 +43,7 @@ jobs:
 
       - name: Generate Services
         run: |
-          java -jar this/.github/tools/openapi-generator-cli.jar generate \
+          java -jar openapi-generator-cli.jar generate \
           -i ${{inputs.docs_path}} \
           -g typescript-angular \
           -o ./generated
